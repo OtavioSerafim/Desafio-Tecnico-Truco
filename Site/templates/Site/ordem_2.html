@@ -1,0 +1,11 @@
+<div>
+    <h2 class="display-6 text-center fw-bold mt-5 mb-5">Outras cartas:</h2>
+    <div class="conteudo-ordem">
+        {% for card in cards %}
+        <img src="{{ card.image }}" alt="Card image" style="width: 100px; margin: 10px;">
+        
+        {% endfor %}
+    </div>
+    <p class="lead ml-3 text-center">Essa é a ordem das outras cartas</p>
+    <p class="lead ml-3 mb-5 text-center">As cartas 10, 9 e 8 não estão no baralho de Truco, e tirando valores que contém manilhas, o naipe pouco importa no poder de cada uma.</p>
+</div>

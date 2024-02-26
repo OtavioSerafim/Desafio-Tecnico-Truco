@@ -1,0 +1,19 @@
+<div id="content">
+    <h1 class="display-4 text-center fw-bold mt-5 mb-5">Ordem das cartas</h1>
+    <p class="lead ml-3 mb-5 text-center">A ordem das cartas é de extrema importância para o Truco, sua compreensão é necessária para poder jogar com maestria.</p>
+    <h2 class="display-6 text-center fw-bold mt-5 mb-5">Manilhas</h2>
+    <div class="conteudo-ordem">
+        {% for card in cards %}
+        <img src="{{ card.image }}" alt="Card image" style="width: 100px; margin: 10px;">
+        {% endfor %}
+        <p></p>
+    </div>
+    <p class="lead ml-3 text-center">Essas são as cartas mais poderosas do truco! (Da mais forte para a mais fraca)</p>
+    <p class="lead ml-3 mb-5 text-center">Conhecidas popularmente como Zap (4 de paus), 7 Copas, Espadilha (Ás de espadas) e 7 Ouros</p>
+</div>
+
+<div id="additional-content"></div>
+
+<div class="conteudo-ordem">
+    <button class="btn btn-primary play-btn" ic-get-from="/ordem/2/" ic-target="#additional-content" ic-indicator="#loading" onclick="this.style.display='none';">Próximas</button>
+</div>

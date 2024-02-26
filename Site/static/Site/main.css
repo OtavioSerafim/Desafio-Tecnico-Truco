@@ -1,0 +1,70 @@
+html {
+    scroll-behavior: smooth;
+  }
+  
+body {
+    background-image: linear-gradient(#0aa574, black);
+    color: #333333;
+    margin-top: 5rem;
+  }
+  
+.cabecalho {
+    background-color: #0aa574;
+    color:#ffffff;
+    border:1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-item a {
+    color: rgb(255, 255, 255);
+}
+
+.nav-item a:hover {
+    color: rgb(230, 230, 230);
+}
+
+.nav-item a:active {
+    color: rgb(255, 0, 0);
+}
+
+.play-btn {
+    background-color:#0ddc9b;
+    border: #08805a;
+}
+
+.play-btn:hover {
+    background-color:#08805a;
+    border: #08805a;
+}
+
+#main-content {
+    background-color: #83f8d3;
+    min-height: 90vh;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.container {
+    margin: 0 auto;
+}
+
+#loading{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    text-align: center;
+    padding-top: 20%;
+}
+
+.conteudo-ordem{
+    display: flex;
+    justify-content: center;
+}
