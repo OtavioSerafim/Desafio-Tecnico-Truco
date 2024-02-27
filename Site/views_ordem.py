@@ -10,8 +10,7 @@ def ordem(request):
     for manilha in manilhas:
         requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/manilhas/add/?cards={manilha}')
 
-    list_pile_url = f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/manilhas/list/'
-    response = requests.get(list_pile_url)
+    response = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/manilhas/list/')
     
     if response.status_code == 200:
         cards = response.json()['piles']['manilhas']['cards']

@@ -32,6 +32,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'Site.apps.SiteConfig',
+    'users.apps.UsersConfig',
+    'crispy_forms',
+    'crispy_bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -128,3 +131,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Configuração para usar o Crispy e tornar os formulários melhor apresentáveis
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+#Configuração para usar o Crispy e tornar os formulários melhor apresentáveis
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#Redireciona o usuário pra home page depois de fazer o Login
+LOGIN_REDIRECT_URL = 'Site-inicio'
+
+#Redireciona o usuário para a página de login caso ele tente usar uma página que é necessário logar
+LOGIN_URL = 'login'

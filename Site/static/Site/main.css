@@ -23,7 +23,11 @@ body {
 }
 
 .nav-item a:active {
-    color: rgb(255, 0, 0);
+    color: #222222;
+}
+
+.nav-link:focus {
+    color: inherit;
 }
 
 .play-btn {
@@ -36,6 +40,12 @@ body {
     border: #08805a;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 #main-content {
     background-color: #83f8d3;
     min-height: 90vh;
@@ -45,6 +55,7 @@ body {
     font-size: 1.2rem;
     line-height: 1.5;
     text-align: justify;
+
 }
 
 .container {
@@ -66,5 +77,7 @@ body {
 
 .conteudo-ordem{
     display: flex;
-    justify-content: center;
+    justify-content:space-around;
+    flex-wrap: wrap;
 }
+
