@@ -24,4 +24,5 @@ urlpatterns = [
     
     path('logout/', auth_views.LogoutView.as_view(next_page='Site-inicio'), name = 'logout'),
     
+    path('leaderboards/', site_views.leaderboards, name='Site-leaderboards'),
 ]

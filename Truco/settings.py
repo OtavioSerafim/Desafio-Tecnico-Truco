@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Site.apps.SiteConfig',
     'users.apps.UsersConfig',
+    'jogo.apps.JogoConfig',
     'crispy_forms',
     'crispy_bootstrap4',
     'django.contrib.admin',
@@ -143,3 +144,5 @@ LOGIN_REDIRECT_URL = 'Site-inicio'
 
 #Redireciona o usuário para a página de login caso ele tente usar uma página que é necessário logar
 LOGIN_URL = 'login'
+
+AUTH_USER_MODEL = 'users.CustomUser'

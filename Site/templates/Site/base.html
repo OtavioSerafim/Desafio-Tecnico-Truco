@@ -21,48 +21,57 @@
 
     <div class="container-fluid cabecalho fixed-top">
         <header class="d-flex py-3 justify-content-between">
-          <ul class="nav nav-pills">
-            <li class="nav-item"><a href="" class="nav-link" ic-get-from="/home" ic-target="#main-content">Página Inicial</a></li>
-            <li class="nav-item"><a href="" class="nav-link" ic-get-from="/regras" ic-target="#main-content">Regras</a></li>
-            <li class="nav-item"><a href="" class="nav-link" ic-get-from="/ordem" ic-target="#main-content" ic-indicator="#loading">Ordem</a></li>
-
-          </ul>
-          <div>
-            {% if user.is_authenticated %}
-                <div class="nav nav-pills header-right d-flex align-items-center">
-                    <li class="nav-item"><p class="mr-3 mb-0">Olá, {{user.username}}!</p></li>
-                    <button class="btn btn-primary play-btn mx-3">Jogar</button>
-                    <li class="nav-item">
-                        <form method="post" action="{% url 'logout' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="nav-link" style="color:white;">Deslogar</button>
-                        </form>
-                    </li>
-                </div>
-            {% else %}
-                <div class="nav nav-pills header-right d-flex align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="" ic-get-from="/login" ic-target="#main-content">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="" ic-get-from="/register" ic-target="#main-content">Cadastro</a></li>
-                    <button class="btn btn-primary play-btn ml-3">Jogar</button>
-                </div>
-            {% endif %}
-        </div>
+          	<ul class="nav nav-pills">
+				<li class="nav-item"><a href="" class="nav-link" ic-get-from="/home" ic-target="#main-content">Página Inicial</a></li>
+				<li class="nav-item"><a href="" class="nav-link" ic-get-from="/regras" ic-target="#main-content">Regras</a></li>
+				<li class="nav-item"><a href="" class="nav-link" ic-get-from="/ordem" ic-target="#main-content" ic-indicator="#loading">Ordem</a></li>
+				<li class="nav-item"><a href="" class="nav-link" ic-get-from="/leaderboards" ic-target="#main-content">Leaderboards</a></li>
+			</ul>
+		<!--DIREITA DA NAVBAR-->
+			<div>
+				{% if user.is_authenticated %}
+					<div class="nav nav-pills header-right d-flex align-items-center">
+						<li class="nav-item"><p class="mr-3 mb-0">Olá, {{user.username}}!</p></li>
+						<li class="nav-item">
+						<form method="post" action="{% url 'logout' %}">
+							{% csrf_token %}
+							<button type="submit" class="nav-link" style="color:white;">Deslogar</button>
+						</form>
+						</li>
+						<button class="btn btn-primary play-btn mx-3">Jogar</button>
+					</div>
+				{% else %}
+					<div class="nav nav-pills header-right d-flex align-items-center">
+						<li class="nav-item"><a class="nav-link" href="" ic-get-from="/login" ic-target="#main-content">Login</a></li>
+						<li class="nav-item"><a class="nav-link" href="" ic-get-from="/register" ic-target="#main-content">Cadastro</a></li>
+						<button class="btn btn-primary play-btn mx-3" data-bs-toggle="modal" data-bs-target="#loginModal">Jogar</button>
+					</div>
+				{% endif %}
+			</div>
         </header>
     </div>
+
+		<!--Painel para avisos-->
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{message.tags}}">
+					{{message}}
+				</div>
+			{% endfor %}
+		{% endif %}
+    
+    <!-- Container para o conteudo -->     
+    <main role="main" class="container" id="main-content" ic-get-from="/home" ic-trigger-on="load">
+      <div class= "row">
+      </div>
+    </main>
+    
+    <!-- Animação de carregando-->
     <div id="loading">
         <img src="{% static 'Site/loading.gif' %}" alt="Loading...">
-      </div>
-<!-- Container para o conteudo -->     
-    <main role="main" class="container" id="main-content" ic-get-from="/home" ic-trigger-on="load">
-        <div class= "row">
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{message.tags}}">
-                {{message}}
-              </div>
-            {% endfor %}
-          {% endif %}
-        </div>
-    </main>
-</body>
+    </div>
 
+
+
+
+</body>
