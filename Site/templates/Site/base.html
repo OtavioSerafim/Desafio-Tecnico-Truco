@@ -38,27 +38,32 @@
 							<button type="submit" class="nav-link" style="color:white;">Deslogar</button>
 						</form>
 						</li>
-						<button class="btn btn-primary play-btn mx-3">Jogar</button>
+						<button class="btn btn-primary play-btn mx-3" onclick="location.href='{% url 'Jogo-inicio' %}'">Jogar</button>
 					</div>
 				{% else %}
 					<div class="nav nav-pills header-right d-flex align-items-center">
 						<li class="nav-item"><a class="nav-link" href="" ic-get-from="/login" ic-target="#main-content">Login</a></li>
 						<li class="nav-item"><a class="nav-link" href="" ic-get-from="/register" ic-target="#main-content">Cadastro</a></li>
-						<button class="btn btn-primary play-btn mx-3" data-bs-toggle="modal" data-bs-target="#loginModal">Jogar</button>
+						<button class="btn btn-primary play-btn mx-3" ic-get-from="/login" ic-target="#main-content">Jogar</button>
 					</div>
 				{% endif %}
 			</div>
         </header>
     </div>
 
-		<!--Painel para avisos-->
-		{% if messages %}
-			{% for message in messages %}
-				<div class="alert alert-{{message.tags}}">
-					{{message}}
-				</div>
-			{% endfor %}
-		{% endif %}
+	<!--Painel para avisos-->
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{message.tags}}">
+				{{message}}
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	<!-- Animação de carregando-->
+	<div id="loading">
+		<img src="{% static 'Site/loading.gif' %}" alt="Loading...">
+	</div>		
     
     <!-- Container para o conteudo -->     
     <main role="main" class="container" id="main-content" ic-get-from="/home" ic-trigger-on="load">
@@ -66,12 +71,5 @@
       </div>
     </main>
     
-    <!-- Animação de carregando-->
-    <div id="loading">
-        <img src="{% static 'Site/loading.gif' %}" alt="Loading...">
-    </div>
-
-
-
 
 </body>

@@ -1,0 +1,91 @@
+<!--CARTAS DO BOT-->
+<div class='cartas-bot-div'>
+    {% for card in cards_bot %}
+    <div class="container-carta">
+        <img class="card card-bot" 
+        src="https://www.deckofcardsapi.com/static/img/back.png" 
+        alt="Back of card" 
+        style="width: 100%;" 
+        data-card-code="{{ card.code }}">
+    </div>
+    {% endfor %}
+</div>
+
+<!-- PONTOS DA DISPUTA BOT-->
+<div id="pontuacao-bot" class="pontuacao-bot">
+    <p>Disputas do bot: {{ request.session.pontos_bot }}</p>
+</div>
+
+<!-- CAMPO DE JOGO -->
+<div id="campo-jogo">
+</div>
+
+<!-- PONTOS DA DISPUTA JOGADOR-->
+<div id="pontuacao-jogador" style="position: absolute; bottom: 150px; width: 100%;" >
+    <p>Disputas do jogador: {{ request.session.pontos_player }}</p>
+</div>
+
+<!--CARTAS DO JOGADOR-->
+<div class='cartas-jogador-div'>
+    {% for card in cards %}
+    <img class="card card-player" src="{{ card.image }}" 
+    alt="Card image" 
+    style="width: 100px; margin: 10px;" 
+    data-card-code="{{ card.code }}" 
+    ic-post-to="move_card/" 
+    ic-trigger-on="click" 
+    ic-include='{"card_code": "{{ card.code }}", "deck_id": "{{ deck_id }}"}'
+    ic-indicator='#loading'>
+    {% endfor %}
+</div>
+
+<!--DECK ID-->
+<p class="bootstrap-class small" style="position: absolute; bottom: 0; right: 0; color: black;">Deck_id:{{deck_id}}</p>
+
+<script>
+        $(".card-player").click(function(){
+            // Verifica se a carta já está em jogo
+            if ($(this).hasClass("in-play")) {
+                return;
+            }
+        
+            // Adiciona a classe in-play à carta
+            $(this).addClass("in-play");
+        
+            // Desativa o evento de clique
+            $(this).off('click');
+        
+
+        // MOVENDO A CARTA SELECIONADA PARA O CAMPO
+        $(this).appendTo("#campo-jogo");
+
+
+        // Faz a solicitação para mover a carta do jogador para campo1 e obter a carta do bot
+        $.post("move_card/", { card_code: $(this).data('card-code'), deck_id: "{{ deck_id }}" }, function(data) {
+    
+            // Encontra a carta do bot que corresponde à escolhida pelo servidor
+            var botCard = $(".card-bot[data-card-code='" + data.bot_card_code + "']");
+    
+            // Move a carta do bot para a div "campo-jogo" e a torne visível
+            botCard.appendTo("#campo-jogo").show();
+    
+            // Altera a imagem da carta do bot para a imagem da carta selecionada
+            var cardImage = 'https://deckofcardsapi.com/static/img/' + data.bot_card_code + '.png';
+            botCard.attr('src', cardImage);
+    
+            // Aplica o estilo na carta no campo
+            botCard.css("width", "100px");
+            botCard.css("margin", "10px");
+    
+            // Torna a div "campo-jogo" display: flex
+            $("#campo-jogo").css("display", "flex");
+    
+            // Atualiza a pontuação do jogador e do bot
+            $("#pontuacao-jogador").text("Pontos do jogador: " + data.pontos_player);
+            $("#pontuacao-bot").text("Pontos do bot: " + data.pontos_bot);
+
+            
+        });
+                    
+    });
+</script>

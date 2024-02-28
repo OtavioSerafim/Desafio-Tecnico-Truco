@@ -146,3 +146,5 @@ LOGIN_REDIRECT_URL = 'Site-inicio'
 LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+SESSION_COOKIE_SECURE = False

@@ -16,3 +16,6 @@ def leaderboards(request):
     User = get_user_model()
     users = User.objects.all().order_by('-vitorias')  # Ordena os usuários pelo número de vitórias
     return render(request, 'Site/leaderboards.html', {'users': users})
+
+def confirmacao(request):
+    return render(request,'Site/confirmacao_jogo.html')
