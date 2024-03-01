@@ -1,0 +1,21 @@
+{% load crispy_forms_tags %}
+    <div class="content-section">
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            <fieldset class ="form-group">
+                <legend class ="border-bottom mb-4" >Registre-se agora!</legend>
+                {{form|crispy}}
+            </fieldset>
+            <div class="form-group mt-4 mb-2">
+                <button class="btn play-btn" type="submit">Registrar</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Já tem uma conta? <a class="ml-2" href="">Faça o Login!</a>
+            </small>
+
+        </div>
+    </div>
+
+

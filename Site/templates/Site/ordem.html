@@ -2,9 +2,9 @@
     <h1 class="display-4 text-center fw-bold mt-5 mb-5">Ordem das cartas</h1>
     <p class="lead ml-3 mb-5 text-center">A ordem das cartas é de extrema importância para o Truco, sua compreensão é necessária para poder jogar com maestria.</p>
     <h2 class="display-6 text-center fw-bold mt-5 mb-5">Manilhas</h2>
-    <div class="conteudo-ordem">
+    <div class="conteudo-ordem" style='justify-content: center;'>
         {% for card in cards %}
-        <img src="{{ card.image }}" alt="Card image" style="width: 100px; margin: 10px;">
+            <img src="{{ card.image }}" alt="Card image" style="width: 100px; margin: 10px;">
         {% endfor %}
         <p></p>
     </div>
