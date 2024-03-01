@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path
-from Site import views as site_views
-from Site import views_ordem as site_views_ordem
-from users import views as user_views
 from django.contrib.auth import views as auth_views
+from Site import views as site_views, views_ordem as site_views_ordem
+from jogo import views as jogo_views, views_truco as jogo_views_truco, logica_jogo as logica_views
+from users import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +25,17 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='Site-inicio'), name = 'logout'),
     
     path('leaderboards/', site_views.leaderboards, name='Site-leaderboards'),
+    
+    path('confirmacao/', site_views.confirmacao, name='Site-confirmacao'),
+    
+    path('jogo/', jogo_views.inicio_jogo, name= 'Jogo-inicio'),
+    
+    path('jogo/resultado/', jogo_views.resultado, name= 'Jogo-Resultado'),
+    
+    path('jogo/truco/', jogo_views_truco.jogo, name='Jogo-Truco'),
+    
+    path('jogo/move_card/', logica_views.move_card, name='Jogo-movecard'),
+    
+    path('jogo/pedido_truco/', logica_views.pedido_truco, name='Jogo-pedir-truco'),
+    
 ]

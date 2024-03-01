@@ -1,0 +1,180 @@
+<div id="jogo-view">
+    <!--CARTAS DO BOT-->
+    <div class='cartas-bot-div'>
+        {% for card in cards_bot %}
+        <div class="container-carta">
+            <img class="card card-bot" 
+            src="https://www.deckofcardsapi.com/static/img/back.png" 
+            alt="Back of card" 
+            style="width: 100%;" 
+            data-card-code="{{ card.code }}">
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- PONTOS DA DISPUTA BOT-->
+    <div id="pontuacao-bot" class="pontuacao-bot">
+        <p>Disputas do bot: {{ request.session.pontos_bot }}</p>
+    </div>
+    <!-- TENTOS DO BOT -->
+    <div id="tentos-bot" class="tentos-bot">
+        <p>Tentos do bot: {{ request.session.tentos_bot }}</p>
+    </div>
+
+    <!-- TENTOS DO JOGADOR -->
+    <div id="tentos-jogador" class="tentos-jogador">
+        <p>Tentos do jogador: {{ request.session.tentos_player }}</p>
+    </div>
+
+    <!-- CAMPO DE JOGO -->
+    <div id="campo-jogo">
+    </div>
+
+    <!--BOTÃO DE NOVA MÃO-->
+    <div class='continue-btn' id='Continue-btn' style='display: none;'>
+        <p class="bootstrap-class text-center" id="truco-recusa" style='display: none; '>Truco Recusado</p>
+        <button class="btn btn-primary play-btn" 
+        ic-get-from='/jogo/truco/' 
+        ic-target="#main-content" 
+        ic-indicator='#loading'>Iniciar próxima rodada</button>
+    </div>
+
+    <!--BOTÃO VER RESULTADO-->
+
+    <div class='continue-btn' id='Ver-resultado' style='display: none;'>
+        <button class="btn btn-primary play-btn" 
+        ic-get-from='resultado/' 
+        ic-target="#main-content" 
+        ic-indicator='#loading'>Ver resultado</button>
+    </div>
+
+    <!--BOTÃO TRUCO-->
+    <div class='truco-btn d-flex justify-content-center' id='Truco-btn'>
+        <button class="btn play-btn"
+        id="botao-truco" 
+        ic-post-to='/jogo/pedido_truco/'
+        ic-include='{"deck_id": "{{ deck_id }}"}'  
+        ic-indicator='#loading'>TRUCO!</button>
+    </div>
+
+    <!-- PONTOS DA DISPUTA JOGADOR-->
+    <div id="pontuacao-jogador" style="position: absolute; bottom: 150px; width: 100%;" >
+        <p>Disputas do jogador: {{ request.session.pontos_player }}</p>
+    </div>
+
+    <!--CARTAS DO JOGADOR-->
+    <div class='cartas-jogador-div'>
+        {% for card in cards %}
+        <img class="card card-player" src="{{ card.image }}" 
+        alt="Card image" 
+        style="width: 100px; margin: 10px;" 
+        data-card-code="{{ card.code }}" 
+        ic-post-to="move_card/" 
+        ic-trigger-on="click" 
+        ic-include='{"card_code": "{{ card.code }}", "deck_id": "{{ deck_id }}"}'
+        ic-indicator='#loading'>
+        {% endfor %}
+    </div>
+
+    <!--DECK ID-->
+    <p class="bootstrap-class small" style="position: absolute; bottom: 0; right: 0; color: black;">Deck_id:{{deck_id}}</p>
+</div>
+
+<!--Script relacionado a troca de carta e contabilização de pontos-->
+<script>
+
+    $(".card-player").click(function(){
+        // Verifica se a carta já está em jogo
+        if ($(this).hasClass("in-play")) {
+            return;
+        }
+    
+        // Adiciona a classe in-play à carta
+        $(this).addClass("in-play");
+    
+        // Desativa o evento de clique
+        $(this).off('click');
+    
+        // MOVENDO A CARTA SELECIONADA PARA O CAMPO
+        $(this).appendTo("#campo-jogo");
+    
+        // Faz a solicitação para mover a carta do jogador para campo1 e obter a carta do bot
+        $.post("move_card/", { card_code: $(this).data('card-code'), deck_id: "{{ deck_id }}" }, function(data) {
+    
+            // Encontra a carta do bot que corresponde à escolhida pelo servidor
+            var botCard = $(".card-bot[data-card-code='" + data.bot_card_code + "']");
+    
+            // Move a carta do bot para a div "campo-jogo" e a torne visível
+            botCard.appendTo("#campo-jogo").show();
+    
+            // Altera a imagem da carta do bot para a imagem da carta selecionada
+            var cardImage = 'https://deckofcardsapi.com/static/img/' + data.bot_card_code + '.png';
+            botCard.attr('src', cardImage);
+    
+            // Aplica o estilo na carta no campo
+            botCard.css("width", "100px");
+            botCard.css("margin", "10px");
+    
+            // Torna a div "campo-jogo" display: flex
+            $("#campo-jogo").css("display", "flex");
+    
+            // Atualiza a pontuação do jogador e do bot
+            $("#pontuacao-jogador").text("Disputas do jogador: " + data.pontos_player);
+            $("#pontuacao-bot").text("Disputas do bot: " + data.pontos_bot);
+    
+            // Atualiza os tentos do jogador e do bot
+            $("#tentos-jogador").text("Tentos do jogador: " + data.tentos_player);
+            $("#tentos-bot").text("Tentos do bot: " + data.tentos_bot);
+
+            // Se os tentos do jogador ou do bot mudaram, dispara o evento tentosChanged
+            if (parseInt(data.pontos_player) == 2 || parseInt(data.pontos_bot) == 2) {
+                $("#jogo-view").trigger("tentosChanged");
+            }
+        });
+                    
+    });
+    
+// Ouvinte de evento para o evento tentosChanged
+$("#jogo-view").on("tentosChanged", function() {
+
+    // Obtém os tentos do jogador e do bot
+    var tentosJogador = parseInt($("#tentos-jogador").text().split(": ")[1]);
+    var tentosBot = parseInt($("#tentos-bot").text().split(": ")[1]);
+
+    // Verifica se os tentos do jogador e do bot são menores que 12
+    if (tentosJogador < 12 && tentosBot < 12) {
+        // Altera o display da div 'Continue-btn' para block
+        $('#Continue-btn').css('display', 'block');
+    } else {
+        // Altera o display da div 'Continue-btn' para none
+        $('#Continue-btn').css('display', 'none');
+
+        // Altera o display da div 'Ver resultado' para block
+        $('#Ver-resultado').css('display', 'block');
+    }
+    //Desativa o evento de clique nas cartas do jogador
+    $(".card-player").off('click');
+
+});
+
+$(document).ready(function(){
+    $("#Truco-btn").click(function(data){
+    $("#botao-truco").hide();
+    // Faz a solicitação para mover a carta do jogador para campo1 e obter a carta do bot
+    $.post("/jogo/pedido_truco/", { deck_id: "{{ deck_id }}" }, function(data) {
+
+        // Atualiza a pontuação do jogador
+        $("#pontuacao-jogador").text("Disputas do jogador: " + data.pontos_player);
+        
+        if (parseInt(data.pontos_player) == 2) {
+            $("#jogo-view").trigger("tentosChanged");
+            $("#truco-recusa").css("display", "block");
+        }
+        else{
+            $("#Truco-btn").text("Truco Aceito!").prop("disabled", true);
+        }
+
+    });
+    
+})});
+</script>
