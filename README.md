@@ -1,4 +1,4 @@
-# DESAFIO TECNICO OTAVIO SERAFIM
+# DESAFIO TECNICO OTAVIO SERAFIM - TRUCO MINEIRO
 
 Este é um aplicativo em Django que utiliza os seguintes tópicos:
 
