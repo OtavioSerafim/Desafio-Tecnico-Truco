@@ -1,20 +1,102 @@
+<!--ESSA PÁGINA ESTÁ COM O CÓDIGO REPETIDO DA SITE/BASE.HTML
+    Por conta da utilização da auth.view fornecida pelo django algumas
+    interações com o intercooler.js faziam com que a página perdesse
+    informações caso o usuário errasse o login, além de que quando o mesmo
+    fosse redirecionado a página login por meio do decorator @login_required
+    a página era recebida sem o estilo proporcionado pelo SITE/BASE.HTML.
+    Depois de testadas mais de 3 soluções cheguei a conclusão que por mais que
+    o método DRY esteja sendo infringido era a solução com menos empecilhos em sua implantação.-->
+
+
 {% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html ic-stylesheet="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="{% static "intercoolerjs/js/jquery.js" %}"></script>
+    <script src="{% static "intercoolerjs/js/intercooler.min.js" %}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static "Site/main.css" %}">
 
-    <div class="content-section">
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
-            <fieldset class ="form-group">
-                <legend class ="border-bottom mb-4" >Login</legend>
-                {{form|crispy}}
-            </fieldset>
-            <div class="form-group mt-4 mb-2">
-                <button class="btn play-btn" type="submit">Entrar</button>
-            </div>
-        </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Não tem uma conta? <a class="ml-2" href="" ic-get-from="/register" ic-target="#main-content">Registre-se!</a>
-            </small>
+      {% if title %}
+      <title>TRUCO MINEIRO - {{ title }}</title>
+      {% else %}
+      <title>TRUCO MINEIRO</title>
+      {% endif %}
+</head>
+<body>
+<!-- NAVBAR DA PÁGINA --> 
 
-        </div>
+    <div class="container-fluid cabecalho fixed-top">
+        <header class="d-flex py-3 justify-content-between">
+          	<ul class="nav nav-pills">
+				<li class="nav-item"><a href="" class="nav-link" ic-get-from="/home" ic-target="#main-content">Página Inicial</a></li>
+				<li class="nav-item"><a href="" class="nav-link" ic-get-from="/regras" ic-target="#main-content">Regras</a></li>
+				<li class="nav-item"><a href="" class="nav-link" ic-get-from="/ordem" ic-target="#main-content" ic-indicator="#loading">Ordem</a></li>
+				<li class="nav-item"><a href="" class="nav-link" ic-get-from="/leaderboards" ic-target="#main-content">Leaderboards</a></li>
+			</ul>
+		<!--DIREITA DA NAVBAR-->
+			<div>
+				{% if user.is_authenticated %}
+					<div class="nav nav-pills header-right d-flex align-items-center">
+						<li class="nav-item"><p class="mr-3 mb-0">Olá, {{user.username}}!</p></li>
+						<li class="nav-item">
+						<form method="post" action="{% url 'logout' %}">
+							{% csrf_token %}
+							<button type="submit" class="nav-link" style="color:white;">Deslogar</button>
+						</form>
+						</li>
+						<button class="btn btn-primary play-btn mx-3" onclick="location.href='{% url 'Jogo-inicio' %}'">Jogar</button>
+					</div>
+				{% else %}
+					<div class="nav nav-pills header-right d-flex align-items-center">
+						<li class="nav-item"><a class="nav-link" href="{% url "login" %}">Login</a></li>
+						<li class="nav-item"><a class="nav-link" href="" ic-get-from="/register" ic-target="#main-content">Cadastro</a></li>
+						<a href="{% url "login" %}"><button class="btn btn-primary play-btn mx-3">Jogar</button></a>
+					</div>
+				{% endif %}
+			</div>
+        </header>
     </div>
+
+	<!--Painel para avisos-->
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{message.tags}}">
+				{{message}}
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	<!-- Animação de carregando-->
+	<div id="loading">
+		<img src="{% static 'Site/loading.gif' %}" alt="Loading...">
+	</div>		
+    
+    <!-- Container para o conteudo -->     
+    <main role="main" class="container" id="main-content">
+		<div class="content-section">
+			<form method="POST" action="{% url 'login' %}">
+				{% csrf_token %}
+				<fieldset class ="form-group">
+					<legend class ="border-bottom mb-4" >Login</legend>
+					{{form|crispy}}
+				</fieldset>
+				<div class="form-group mt-4 mb-2">
+					<button class="btn play-btn" type="submit">Entrar</button>
+				</div>
+			</form>
+			<div class="border-top pt-3">
+				<small class="text-muted">
+					Não tem uma conta? <a class="ml-2" href="" ic-get-from="/register" ic-target="#main-content">Registre-se!</a>
+				</small>
+	
+			</div>
+		</div>
+	
+    </main>
+    
+
+</body>
