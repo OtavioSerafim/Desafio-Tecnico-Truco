@@ -96,7 +96,7 @@ body {
     position: absolute;
     top: 150px;
     left: 80%;
-    width: 100%;
+    width: 20%;
     display: flex;
 }
 
@@ -132,4 +132,14 @@ body {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+}
+
+@media (max-width: 1000px) {
+    #Truco-btn {
+        bottom: 150px; /* Ajuste este valor conforme necessário */
+    }
+    .pontuacao-bot{
+        left:70%;
+        width: 30%; /* Adicionado para evitar rolamento horizontal */
+    }
 }
