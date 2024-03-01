@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from Site import views as site_views, views_ordem as site_views_ordem
-from jogo import views as jogo_views, views_truco as jogo_views_truco
+from jogo import views as jogo_views, views_truco as jogo_views_truco, logica_jogo as logica_views
 from users import views as user_views
 
 urlpatterns = [
@@ -30,8 +30,12 @@ urlpatterns = [
     
     path('jogo/', jogo_views.inicio_jogo, name= 'Jogo-inicio'),
     
+    path('jogo/resultado/', jogo_views.resultado, name= 'Jogo-Resultado'),
+    
     path('jogo/truco/', jogo_views_truco.jogo, name='Jogo-Truco'),
     
-    path('jogo/move_card/', jogo_views_truco.move_card, name='Jogo-movecard'),
+    path('jogo/move_card/', logica_views.move_card, name='Jogo-movecard'),
+    
+    path('jogo/pedido_truco/', logica_views.pedido_truco, name='Jogo-pedir-truco'),
     
 ]
