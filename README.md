@@ -15,9 +15,9 @@ O objetivo do aplicativo é fornecer um site sobre o jogo de truco mineiro, com 
 
 O aplicativo possui as seguintes páginas:
 
-1. Página Inicial: Apresenta uma visão geral do jogo de truco mineiro e suas principais características.
+1. Página Inicial: Apresenta uma visão geral sobre o site e suas principais características.
 
-2. Página de Regras: Detalha as regras do jogo, incluindo informações sobre pontuação, cartas e estratégias.
+2. Página de Regras: Detalha as regras do jogo, incluindo informações sobre pontuação e como o jogo funciona.
 
 3. Página de Ordem das Cartas: Mostra a ordem das cartas no jogo de truco mineiro, desde a maior até a menor.
 
